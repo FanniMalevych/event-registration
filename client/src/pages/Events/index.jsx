@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
+import EventCard from "../../components/EventCard"
 
 export default function Events () {
     const [events, setEvents] = useState([])
@@ -14,5 +15,12 @@ export default function Events () {
     
     return <>
     <h1>List of events</h1>
+    {events.map(event => <EventCard 
+                            key={event._id} 
+                            title={event.title} 
+                            description={event.description}
+                            organizer={event.organizer}
+                            date={event.date}
+                            id={event._id}/>)}
     </>
 }

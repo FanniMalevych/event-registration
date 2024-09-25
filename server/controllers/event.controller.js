@@ -1,4 +1,5 @@
 import Event from "../models/event.model.js";
+import Participant from "../models/participant.model.js";
 
 export const getEvents = async (req, res) => {
     try {
@@ -14,11 +15,10 @@ export const getEvents = async (req, res) => {
 export const getEventParticipants = async (req, res) => {
     try {
         const { id: eventId } = req.params      
-       
-        const event = await Event.findOne({ _id: eventId})
-        .populate('participants')
+        
+        const participants = await Participant.find({eventId})
 
-        res.status(200).json(event);
+        res.status(200).json(participants);
     } catch {
         console.log(' Error in getEventParticipants controller', err.message);
         res.status(500).json({error: 'Error during getting event participants'})
