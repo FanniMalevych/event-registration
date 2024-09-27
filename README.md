@@ -1,5 +1,5 @@
 # event_registration
-
+App for registration for the event. Implemented using Express, React and MongoDB
 
 ## Set up .env file
 PORT=... 
