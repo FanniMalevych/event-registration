@@ -21,7 +21,7 @@ export const createParticipant = async (req, res) => {
     
                 res.status(201).json({
                     _id: newParticipant._id,
-                    fullName: newConversation.fullName,
+                    fullName: newParticipant.fullName,
                 })
             } else {
                 res.status(400).json({error: 'Invalid data'})
