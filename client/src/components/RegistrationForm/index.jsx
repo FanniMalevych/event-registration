@@ -14,10 +14,39 @@ export default function RegistrationForm () {
 
     const [value, setValue] = useState('social_media');
     const [date, setDate]= useState(dayjs(new Date()))
+    const [name, setName] = useState("");
+    const [nameError, setNameError] = useState(false);
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState(false);
+
+    const handleNameChange = e => {
+        setName(e.target.value);
+        if (e.target.validity.valid) {
+            setNameError(false);
+        } else {
+            setNameError(true);
+        }
+    };
+
+    const handleEmailChange = e => {
+        setEmail(e.target.value);
+            if (e.target.validity.valid) {
+        setEmailError(false);
+        } else {
+            setEmailError(true);
+        }
+    };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
         const data = new FormData(event.currentTarget);
+        if(!data.get('name')) setNameError(true)
+        if(!data.get('email')) setEmailError(true)
+        if(nameError || emailError) return
+        if(!data.get('email') || !data.get('name') || !data.get('detail') || !data.get('date')) return
+        
         axios.post(`/api/events/${param.id}`, {
             email: data.get('email'),
             fullName: data.get('name'),
@@ -31,8 +60,6 @@ export default function RegistrationForm () {
     return (
         <>
         <BackButton/>
-       
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -42,28 +69,45 @@ export default function RegistrationForm () {
               alignItems: 'center',
             }}
           >
-
             <Typography component="h1" variant="h5" mt={5}>
               Register for the event
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center', }}>
             <TextField
                 margin="normal"
+                sx={{width: 350}}
                 required
-                fullWidth
                 name="name"
                 label="Full Name"
                 id="name"
                 autoFocus
+                value={name}
+                onChange={handleNameChange}
+                error={nameError}
+                helperText={
+                    nameError ? "Please enter your name (letters and spaces only)" : ""
+                }
+                inputProps={{
+                    pattern: "[A-Za-z ]+",
+                }}
               />
               <TextField
                 margin="normal"
+                sx={{width: 350}}
                 required
-                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={handleEmailChange}
+                error={emailError}
+                helperText={emailError ? "Please enter a valid email" : ""}
+                inputProps={{
+                type: "email",
+                }}
                 
               />
              <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -103,7 +147,6 @@ export default function RegistrationForm () {
               </Button>
               </Box>
               </Box>
-              </Grid>
         </>
     )
 }

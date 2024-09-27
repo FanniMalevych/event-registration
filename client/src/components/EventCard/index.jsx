@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 export default function EventCard ({title, description, date, organizer, id}) {
     
     return (
-        <Card sx={{ maxWidth: 345 }} style={{margin: '15px'}}>
-        
+        <Card sx={{ width: 345 }} style={{margin: '20px'}}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {title}
@@ -15,15 +14,15 @@ export default function EventCard ({title, description, date, organizer, id}) {
            {description}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-           organizer: {organizer}
+           Organizer: {organizer}
           </Typography>
           <Typography variant="body2" color="text.secondary" display='flex' alignItems='center' justifyContent='space-between' p={2}>
            <CalendarMonthIcon/> {new Date(date).toDateString()}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Link to={`/register/${id}`}><Button size="small">Register</Button></Link>
-          <Link to={`/detail/${id}`}><Button size="small">View More</Button></Link>
+        <CardActions sx={{display: 'flex', justifyContent: 'space-around'}}>
+          <Link to={`/register/${id}`}><Button size="small" >Register</Button></Link>
+          <Link to={`/detail/${id}`}><Button size="small" >View More</Button></Link>
         </CardActions>
       </Card>
     )
